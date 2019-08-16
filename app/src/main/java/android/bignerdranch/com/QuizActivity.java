@@ -26,10 +26,16 @@ public class QuizActivity extends AppCompatActivity {
     };
     private int mCurrentIndex = 0;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
+
+
+        if (savedInstanceState != null) {
+            mCurrentIndex = savedInstanceState.getInt("index", 0);
+        }
 
         mQuestionTextView = (TextView) findViewById(R.id.question_text_view);
         mQuestionTextView.setOnClickListener(new View.OnClickListener() {
@@ -39,6 +45,7 @@ public class QuizActivity extends AppCompatActivity {
                 updateQuestion();
             }
         });
+
 
         mTrueButton = (Button) findViewById(R.id.true_button);
         mTrueButton.setOnClickListener(new View.OnClickListener() {
@@ -78,6 +85,12 @@ public class QuizActivity extends AppCompatActivity {
         updateQuestion();
 
     }
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState){
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putInt("index", mCurrentIndex);
+    }
+
 
     private void updateQuestion() {
         int question = mQuestionBank[mCurrentIndex].getTextResId();
